@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Products;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,4 +17,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
             return Carbon::parse(($item["updated_at"]), 'UTC')->isoFormat('dddd, D MMMM Y, HH:mm:ss');
         }
     });
+});
+
+Route::get('/products', function () {
+    return response()->json([
+        'products' => Products::query()->with('category')->get()
+    ]);
 });
