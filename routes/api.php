@@ -24,3 +24,9 @@ Route::get('/products', function () {
         'products' => Products::query()->with('category')->get()
     ]);
 });
+
+Route::get('/product/{id}', function ($id) {
+    return response()->json([
+        'product' => Products::query()->with('category')->find($id)
+    ]);
+});

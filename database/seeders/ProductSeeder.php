@@ -216,7 +216,7 @@ class ProductSeeder extends Seeder
                 'price' => $priceRanges[array_rand($priceRanges)],
                 'stock' => $stockRanges[array_rand($stockRanges)],
                 'image' => $fruit['image'],
-                'harvested_at' => now()->subDays(rand(1, 30))->format('Y-m-d H:i:s'),
+                'harvested_at' => now()->subDays(rand(1, 5))->format('Y-m-d H:i:s'),
             ]);
         }
 
@@ -232,7 +232,7 @@ class ProductSeeder extends Seeder
                 'price' => $priceRanges[array_rand($priceRanges)],
                 'stock' => $stockRanges[array_rand($stockRanges)],
                 'image' => $vegetable['image'],
-                'harvested_at' => now()->subDays(rand(1, 30))->format('Y-m-d H:i:s'),
+                'harvested_at' => now()->subDays(rand(1, 5))->format('Y-m-d H:i:s'),
             ]);
         }
     }
