@@ -17,6 +17,8 @@ class Carts extends Model
     public $primaryKey = 'id';
     public $incrementing = false;
 
+    protected $guarded = [];
+
     protected function serializeDate(DateTimeInterface $date): string
     {
         return Carbon::parse($date)->isoFormat('dddd, D MMMM Y');

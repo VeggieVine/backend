@@ -22,6 +22,8 @@ class Products extends Model
         return Carbon::parse($date)->isoFormat('dddd, D MMMM Y');
     }
 
+    protected $guarded = [];
+
     protected function casts(): array
     {
         return [
