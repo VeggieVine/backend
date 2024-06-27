@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -33,10 +34,15 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected function serializeDate(DateTimeInterface $date): string
+    {
+        return Carbon::parse($date)->isoFormat('dddd, D MMMM Y');
+    }
+
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            'email_verified_at' => 'date',
             'password' => 'hashed',
         ];
     }

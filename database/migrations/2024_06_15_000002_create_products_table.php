@@ -19,9 +19,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description');
+            $table->text('harvested_from');
+            $table->smallInteger('storage_life');
             $table->double('price');
             $table->integer('stock');
             $table->string('image');
+            $table->timestamp('harvested_at');
             $table->timestamps();
         });
     }
