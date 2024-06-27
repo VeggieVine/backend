@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 Route::middleware(['auth:sanctum'])->group(function ()
 {
@@ -86,6 +87,84 @@ Route::middleware(['auth:sanctum'])->group(function ()
 
             return response()->json([
                 'message' => 'Berhasil menghapus item dari keranjang.'
+            ]);
+        });
+    });
+
+    // PRODUCTS
+    Route::prefix('products')->group(function ()
+    {
+        Route::post('/', function (Request $request)
+        {
+            // VALIDATE REQUEST
+            $request->validate([
+                'name' => 'required|string',
+                'description' => 'required|string',
+                'category_id' => 'required|exists:categories,id',
+                'price' => 'required|integer|min:0',
+                'stock' => 'required|integer|min:0',
+                'image' => 'required|string'
+            ]);
+
+            // CREATE PRODUCT
+            Products::query()->create([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'description' => $request->description,
+                'harvested_from' => 'Jakarta',
+                'category_id' => $request->category_id,
+                'price' => $request->price,
+                'stock' => $request->stock,
+                'image' => $request->image,
+                'storage_life' => 7,
+                'harvested_at' => Carbon::now(),
+            ]);
+
+            return response()->json([
+                'message' => 'Berhasil menambahkan produk baru.'
+            ], 201);
+        });
+
+        Route::put('/{id}', function (Request $request, $id)
+        {
+            // VALIDATE REQUEST
+            $request->validate([
+                'name' => 'required|string',
+                'description' => 'required|string',
+                'category_id' => 'required|exists:categories,id',
+                'price' => 'required|integer|min:0',
+                'stock' => 'required|integer|min:0',
+                'image' => 'required|string'
+            ]);
+
+            // FIND PRODUCT
+            $product = Products::query()->find($id);
+
+            // UPDATE PRODUCT
+            $product->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'category_id' => $request->category_id,
+                'price' => $request->price,
+                'stock' => $request->stock,
+                'image' => $request->image,
+            ]);
+
+            return response()->json([
+                'message' => 'Berhasil mengubah data produk.'
+            ]);
+        });
+
+        Route::delete('/{id}', function ($id)
+        {
+            // FIND PRODUCT
+            $product = Products::query()->find($id);
+
+            // DELETE PRODUCT
+            $product->delete();
+
+            return response()->json([
+                'message' => 'Berhasil menghapus produk.'
             ]);
         });
     });
