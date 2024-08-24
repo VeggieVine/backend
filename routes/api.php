@@ -44,8 +44,17 @@ Route::middleware(['auth:sanctum'])->group(function ()
             // FIND PRODUCT
             $product = Products::query()->find($request->product_id);
 
-            // REDUCE STOCK
-            $product->decrement('stock', $request->quantity);
+            // REDUCE STOCK WITH LOGIC
+            if ($product->stock < $request->quantity)
+            {
+                return response()->json([
+                    'message' => 'Stok produk tidak mencukupi.'
+                ], 500);
+            }
+            else
+            {
+                $product->decrement('stock', $request->quantity);
+            }
 
             // FIND CART
             $cart = Carts::query()->where('customer_id', $request->user()->id)->where('product_id', $product->id)->first();
