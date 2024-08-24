@@ -24,6 +24,16 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', Rules\Password::defaults()],
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.max' => 'Nama maksimal 255 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'email.email' => 'Email tidak valid.',
+            'email.lowercase' => 'Email harus huruf kecil.',
+            'email.max' => 'Email maksimal 255 karakter.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
         ]);
 
         if ($request->email === 'marcocaesto@gmail.com' || $request->email === 'tanfitraadhim@gmail.com' || $request->email === 'faizahkireimaharani@gmail.com') {
